@@ -120,3 +120,17 @@ def incomplete_tasks(request):
 def all_tasks(request):
     tasks = Task.objects.all()
     return render(request, 'tasks/all_tasks.html', {'tasks': tasks})
+
+@user_passes_test(is_admin)
+def calendar_view(request):
+    tasks = Task.objects.all()
+    events = []
+
+    for task in tasks:
+        events.append({
+            'title': task.title,
+            'start': str(task.due_date),
+            'color': '#28a745' if task.completed else '#dc3545',
+        })
+
+    return render(request, 'tasks/calendar_view.html', {'events': events})

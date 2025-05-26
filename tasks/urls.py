@@ -12,5 +12,8 @@ urlpatterns = [
     path('delete/<int:task_id>/', views.delete_task, name='delete_task'),
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('incomplete/', views.incomplete_tasks, name='incomplete_tasks'),        # ✅ yeni
-    path('all-tasks/', views.all_tasks, name='all_tasks'),                        # ✅ yeni
+    path('all-tasks/', views.all_tasks, name='all_tasks'),    
+    path('calendar/', views.calendar_view, name='calendar_view'),
+    path('calendar/', views.calendar_view, name='calendar_view'),
+
 ]
