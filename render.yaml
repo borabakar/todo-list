@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: todo-list
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn todo_list.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: gorev_sistemi.settings # Ana settings.py dosyanızın bulunduğu dizin ve dosya adı
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
