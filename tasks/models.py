@@ -12,7 +12,7 @@ class Task(models.Model):
     description = models.TextField()
     due_date = models.DateField()
     completed = models.BooleanField(default=False)
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE)
+    assigned_to = models.ManyToManyField(User)  # 🔄 Multiple users can be assigned
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='Medium')
 
     def __str__(self):

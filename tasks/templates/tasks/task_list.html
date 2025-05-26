@@ -23,10 +23,12 @@
                         <div>
                             <strong>{{ task.title }}</strong><br>
                             <small>{{ task.description }}</small><br>
-                            <small class="text-muted">Due Date: {{ task.due_date|date:"d M Y" }}</small>
+                            <small class="text-muted">Due Date: {{ task.due_date|date:"d M Y" }}</small><br>
+                            <small><strong>Assigned to:</strong>
+                                {{ task.assigned_to.all|join:", " }}
+                            </small>
                         </div>
                         <div class="text-end">
-                            <div><strong>{{ task.assigned_to.username }}</strong></div>
                             {% if not task.completed %}
                                 <a href="{% url 'complete_task' task.id %}" class="btn btn-sm btn-outline-success mt-1">Complete</a>
                             {% else %}

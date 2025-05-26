@@ -5,10 +5,18 @@
     {% if tasks %}
         <ul class="list-group mt-4">
             {% for task in tasks %}
-                <li class="list-group-item list-group-item-success">
-                    <strong>{{ task.title }}</strong><br>
-                    <small>{{ task.description }}</small><br>
-                    <small class="text-muted">Completion Date: {{ task.updated_at|date:"d M Y H:i" }}</small>
+                <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ task.title }}</strong><br>
+                        <small>{{ task.description }}</small><br>
+                        <small class="text-muted">Completion Date: {{ task.updated_at|date:"d M Y H:i" }}</small>
+                    </div>
+                    <form method="post" action="{% url 'delete_task' task.id %}" onsubmit="return confirm('Are you sure you want to delete this task?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                            <i class="fas fa-times"></i> Delete
+                        </button>
+                    </form>
                 </li>
             {% endfor %}
         </ul>

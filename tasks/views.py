@@ -8,6 +8,19 @@ def is_admin(user):
     return user.is_superuser
 
 @login_required
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id, completed=True)
+
+    # sadece admin veya kendi tamamladığı görevleri silebilir
+    if request.user.is_superuser or task.assigned_to == request.user:
+        task.delete()
+        messages.success(request, "Task deleted successfully.")
+    else:
+        messages.error(request, "You do not have permission to delete this task.")
+
+    return redirect('completed_tasks')
+
+@login_required
 def task_list(request):
     if request.user.is_superuser:
         # Admin: get all incomplete tasks
@@ -59,7 +72,9 @@ def create_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            form.save()
+            task = form.save(commit=False)  # görevi oluştur ama kaydetme
+            task.save()  # kaydet (ID oluşturulsun)
+            form.save_m2m()  # assigned_to gibi ManyToMany alanları kaydet
             messages.success(request, "New task successfully assigned.")
             return redirect('task_list')
     else:

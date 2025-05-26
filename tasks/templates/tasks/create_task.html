@@ -19,7 +19,15 @@
         </div>
 
         <div class="mb-3">
-            {{ form.assigned_to.label_tag }} {{ form.assigned_to }}
+            {{ form.assigned_to.label_tag }}
+            <div class="form-check">
+                {% for user in form.assigned_to %}
+                    <div class="form-check mb-1">
+                        {{ user.tag }}
+                        {{ user.choice_label }}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
 
         <div class="mb-3">
