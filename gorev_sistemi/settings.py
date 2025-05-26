@@ -13,7 +13,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-5$p3j9frr(f61gujk&3z+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', 'www.tasklist.site', '8b71-95-8-162-194.ngrok-free.app']
+ALLOWED_HOSTS = ['todo-list-y3em.onrender.com','.localhost', '127.0.0.1', '[::1]', 'www.tasklist.site', '8b71-95-8-162-194.ngrok-free.app']
 
 # Application definition
 INSTALLED_APPS = [
