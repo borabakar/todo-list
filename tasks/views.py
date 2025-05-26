@@ -81,3 +81,42 @@ def create_task(request):
         form = TaskForm()
     return render(request, 'tasks/create_task.html', {'form': form})
 
+@user_passes_test(is_admin)
+def admin_dashboard(request):
+    total_tasks = Task.objects.count()
+    completed_tasks = Task.objects.filter(completed=True).count()
+    incomplete_tasks = Task.objects.filter(completed=False).count()
+
+    priority_high = Task.objects.filter(priority='High').count()
+    priority_medium = Task.objects.filter(priority='Medium').count()
+    priority_low = Task.objects.filter(priority='Low').count()
+
+    # Kullanıcı başına görev sayısı
+    from django.contrib.auth.models import User
+    user_task_counts = []
+    for user in User.objects.all():
+        user_tasks = Task.objects.filter(assigned_to=user).count()
+        user_task_counts.append((user.username, user_tasks))
+
+    context = {
+        'total_tasks': total_tasks,
+        'completed_tasks': completed_tasks,
+        'incomplete_tasks': incomplete_tasks,
+        'priority_high': priority_high,
+        'priority_medium': priority_medium,
+        'priority_low': priority_low,
+        'user_task_counts': user_task_counts,
+    }
+
+    return render(request, 'tasks/admin_dashboard.html', context)
+
+@user_passes_test(is_admin)
+def incomplete_tasks(request):
+    tasks = Task.objects.filter(completed=False)
+    return render(request, 'tasks/incomplete_tasks.html', {'tasks': tasks})
+
+
+@user_passes_test(is_admin)
+def all_tasks(request):
+    tasks = Task.objects.all()
+    return render(request, 'tasks/all_tasks.html', {'tasks': tasks})
